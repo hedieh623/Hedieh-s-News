@@ -8,7 +8,7 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((res) => {
-      expect(Array.isArray(res.body)).toBe(true);
+        expect(Array.isArray(res.body)).toBe(true);
       });
   });
 
