@@ -16,9 +16,8 @@ describe("GET /api/topics", () => {
       .expect(200)
       .then((res) => {
         const firstElement = res.body[0];
-        expect(firstElement.hasOwnProperty("slug")).toBe(true);
-        expect(typeof firstElement).toBe("object");
         expect(typeof firstElement.slug).toBe("string");
+        expect(typeof firstElement.description).toBe("string");
       });
   });
   test("should return the response(an array of objects) that has the properties description", () => {
