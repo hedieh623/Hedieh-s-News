@@ -7,19 +7,19 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((res) => {
-      expect(Array.isArray(res.body)).toBe(true);
+        expect(Array.isArray(res.body)).toBe(true);
       });
   });
-  test('should return an endpoint(an array of objects) that has the properties slug', () => {
+  test("should return an endpoint(an array of objects) that has the properties slug", () => {
     return request(app)
-    .get("/api/topics")
-    .expect(200)
-    .then((res)=>{
-      const firstElement = res.body[0]
-      expect(firstElement.hasOwnProperty('slug')).toBe(true);
-    })
-
-    
+      .get("/api/topics")
+      .expect(200)
+      .then((res) => {
+        const firstElement = res.body[0];
+        expect(firstElement.hasOwnProperty("slug")).toBe(true);
+        expect(typeof firstElement).toBe("object");
+        expect(typeof firstElement.slug).toBe("string");
+      });
   });
   test("should return the response(an array of objects) that has the properties description", () => {
     return request(app)
@@ -28,8 +28,8 @@ describe("GET /api/topics", () => {
       .then((res) => {
         const firstElement = res.body[0];
         expect(firstElement.hasOwnProperty("description")).toBe(true);
+        expect(typeof firstElement).toBe("object");
+        expect(typeof firstElement.description).toBe("string");
       });
   });
 });
-
-
