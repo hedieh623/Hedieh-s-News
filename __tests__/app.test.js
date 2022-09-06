@@ -59,3 +59,23 @@ describe('GET /api/articles/:article_id', () => {
   });
 
 });
+
+
+describe("5. GET /api/users", () => {
+  test("should return the response(an array of objects) that has the properties description", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body)).toBe(true);
+        const firstElement = res.body[0];
+        expect(firstElement.hasOwnProperty("username")).toBe(true);
+        expect(firstElement.hasOwnProperty("name")).toBe(true);
+        expect(firstElement.hasOwnProperty("avatar_url")).toBe(true);
+        expect(typeof firstElement).toBe("object");
+        expect(typeof firstElement.username).toBe("string");
+        expect(typeof firstElement.name).toBe("string");
+        expect(typeof firstElement.avatar_url).toBe("string");
+      });
+  });
+});
