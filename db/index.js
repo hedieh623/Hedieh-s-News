@@ -1,6 +1,7 @@
 const { Pool } = require("pg"); //needed to make a connection to the database
 const ENV = process.env.NODE_ENV || "development";
 
+
 require("dotenv").config({
   //using the dotenv library go and loook at this file with this path and read the key (all keys but PGDATABASE for example) value pairs in there so that
   path: `${__dirname}/../.env.${ENV}`,
