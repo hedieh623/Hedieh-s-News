@@ -1,8 +1,12 @@
-const selectArticle = require("../Models/article.model.js");
+const selectArticle = require("../Models/Article.model.js");
 
 const getArticle = (req, res) => {
-  selectArticle().then((topics) => {
-    res.status(200).send(topics);
+  selectArticle(req.params.article_id).then((article) => {
+    if(article){
+        res.status(200).send(article);
+    } else{
+        res.status(404).send(`No article was found with id: ${req.params.article_id}`)
+    }
   });
 };
 
