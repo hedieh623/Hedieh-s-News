@@ -1,4 +1,3 @@
-//write tests ot check if our api is working
 const request = require("supertest");
 const app = require("../app.js");
 const db = require("../db/index.js");
