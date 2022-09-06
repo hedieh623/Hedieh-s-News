@@ -39,7 +39,7 @@ describe("GET /api/topics", () => {
 });
 
 
-describe('4. GET /api/articles/:article_id', () => {
+describe('GET /api/articles/:article_id', () => {
   test('should call this endopoint and sees if it is an object or not and if the article id matches the URL"', () => {
     return request(app)
     .get("/api/articles/1")
