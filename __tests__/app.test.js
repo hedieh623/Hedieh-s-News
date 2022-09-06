@@ -17,6 +17,9 @@ describe("GET /api/topics", () => {
     .then((res)=>{
       const firstElement = res.body[0]
       expect(firstElement.hasOwnProperty('slug')).toBe(true);
+      expect(typeof(firstElement)).toBe("object")
+      expect(typeof(firstElement.slug)).toBe("string")
+
     })
 
     
@@ -28,6 +31,8 @@ describe("GET /api/topics", () => {
       .then((res) => {
         const firstElement = res.body[0];
         expect(firstElement.hasOwnProperty("description")).toBe(true);
+         expect(typeof(firstElement)).toBe("object")
+      expect(typeof(firstElement.description)).toBe("string")
       });
   });
 });
