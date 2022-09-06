@@ -48,8 +48,14 @@ describe('GET /api/articles/:article_id', () => {
       const article_id = res.body.article_id
       expect(typeof(res.body)).toBe("object")
       expect(article_id).toBe(1)
+      expect(typeof res.body.author).toBe("string");
+      expect(typeof res.body.title).toBe("string");
+      expect(typeof res.body.article_id).toBe("number");
+      expect(typeof res.body.body).toBe("string");
+      expect(typeof res.body.topic).toBe("string");
+      expect(typeof res.body.votes).toBe("number");
 
-    })
+      })
   });
 
   test("should return the response(an object) that has the stated properties ", () => {
