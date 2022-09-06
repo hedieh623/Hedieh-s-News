@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("../app.js");
-const db = require("../db/index.js");
 
 describe("GET /api/topics", () => {
   test("calls this endopoint and sees if it is an array or not", () => {
