@@ -8,6 +8,6 @@ app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticle);
 app.get("/api/users",getUsers)
 
-app.listen(8080);
+const server = app.listen(8080)
 
-module.exports = app;
+module.exports = server;
