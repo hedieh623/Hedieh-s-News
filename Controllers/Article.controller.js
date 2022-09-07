@@ -10,4 +10,5 @@ const getArticle = (req, res) => {
   });
 };
 
+
 module.exports = { getArticle };
