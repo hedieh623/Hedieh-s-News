@@ -12,6 +12,19 @@ afterAll(() => {
   app.close();
 });
 
+describe("invalid endpoints", () =>{
+  test("should respond with a `Route not found` message when the wrong path is requested", () => {
+    return request(app)
+      .get("/hedieh")
+      .expect(404)
+      .then((res) => {
+        const message = res.body.message;
+        expect(message).toBe("Route not found");
+        expect(typeof res.body).toBe("object");
+      });
+  });
+})
+
 describe("GET /api/topics", () => {
   test("calls this endopoint and sees if it is an array or not", () => {
     return request(app)
@@ -41,16 +54,5 @@ describe("GET /api/topics", () => {
         expect(typeof firstElement).toBe("object");
         expect(typeof firstElement.description).toBe("string");
       });
-  });
-
-  test("should respond with a `Route not found` message when the wrong path is requested", () => {
-    return request(app)
-    .get("/hedieh")
-    .expect(404)
-    .then((res)=>{
-      const message = res.body.message;
-      expect(message).toBe("Route not found")
-      expect(typeof res.body).toBe("object");
-    })
   });
 });
