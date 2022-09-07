@@ -1,6 +1,23 @@
 const request = require("supertest");
 const app = require("../app.js");
 
+//run before the tests so that we recieve the right data in the db.
+beforeAll(
+  () => {
+  const testData = require("../db/data/test-data/index.js"); //the actual file . an array of objects
+  const seed = require("../db/seeds/seed.js"); //seed is a funciton that takes the data and puts it in the database
+ // const db = require("../db/connection.js");
+  return seed(testData)
+  }
+  );
+
+  afterAll(
+    () =>{
+    console.log("finished")
+
+    }
+  );
+
 describe("GET /api/topics", () => {
   test("calls this endopoint and sees if it is an array or not", () => {
     return request(app)
