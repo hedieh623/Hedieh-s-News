@@ -62,17 +62,23 @@ describe('GET /api/articles/:article_id', () => {
     .get("/api/articles/1")
     .expect(200)
     .then((res)=>{
-      const article_id = res.body.article_id
+      const article_id = res.body.article_id;
+      const author = res.body.author;
+      const title = res.body.title;
+      const topic = res.body.topic;
+      const body = res.body.body;
+      const created_at = res.body.created_at;
+      const votes = res.body.votes;
+
       expect(typeof(res.body)).toBe("object")
       expect(article_id).toBe(1)
-      expect(typeof res.body.author).toBe("string");
-      expect(typeof res.body.title).toBe("string");
-      expect(typeof res.body.article_id).toBe("number");
-      expect(typeof res.body.body).toBe("string");
-      expect(typeof res.body.topic).toBe("string");
-      expect(typeof res.body.votes).toBe("number");
-
-      })
+      expect(author).toBe("butter_bridge")
+      expect(title).toBe("Living in the shadow of a great man")
+      expect(topic).toBe("mitch")
+      expect(body).toBe("I find this existence challenging")
+      //expect(Date.parse(created_at)).toBe(1594329060000);
+      expect(votes).toBe(100)
+    })
   });
 
   test("should return the response(an object) that has the stated properties ", () => {
