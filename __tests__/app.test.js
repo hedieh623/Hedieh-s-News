@@ -67,13 +67,13 @@ describe('GET /api/articles/:article_id', () => {
     .get("/api/articles/1")
     .expect(200)
     .then((res)=>{
-      const article_id = res.body.article_id;
-      const author = res.body.author;
-      const title = res.body.title;
-      const topic = res.body.topic;
-      const body = res.body.body;
-      const created_at = res.body.created_at;
-      const votes = res.body.votes;
+      const article_id = res.body.article.article_id;
+      const author = res.body.article.author;
+      const title = res.body.article.title;
+      const topic = res.body.article.topic;
+      const body = res.body.article.body;
+      const created_at = res.body.article.created_at;
+      const votes = res.body.article.votes;
 
       expect(typeof(res.body)).toBe("object")
       expect(article_id).toBe(1)
@@ -81,16 +81,28 @@ describe('GET /api/articles/:article_id', () => {
       expect(title).toBe("Living in the shadow of a great man")
       expect(topic).toBe("mitch")
       expect(body).toBe("I find this existence challenging")
-      //expect(Date.parse(created_at)).toBe(1594329060000);
       expect(votes).toBe(100)
     })
   });
-
   test("should return the response(an object) that has the stated properties ", () => {
-    return request(app)
-      .get("/api/articles/1000")
-      .expect(404);
+    return request(app).get("/api/articles/banana")
+    .expect(404)
+    .then((res) => {
+        const message = res.body.message;
+        expect(message).toBe("Route not found");
+        expect(typeof res.body).toBe("object");
+    
   });
-  
 });
+test("should return the response(an object) that has the stated properties ", () => {
+  return request(app)
+    .get("/api/articles/1000")
+    .expect(404)
+    .then((res) => {
+      const message = res.body.message;
+      expect(message).toBe("Route not found");
+      expect(typeof res.body).toBe("object");
+    });
+});
+})
 

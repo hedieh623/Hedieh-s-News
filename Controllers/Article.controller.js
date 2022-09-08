@@ -4,7 +4,7 @@ const getArticle = (req, res) => {
   selectArticle(req.params.article_id)
     .then((article) => {
       if (article) {
-        res.status(200).send(article);
+        res.status(200).send({article:article});
       } else {
         res
           .status(404)
