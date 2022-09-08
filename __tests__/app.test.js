@@ -2,7 +2,7 @@ const request = require("supertest");
 const app = require("../app.js");
 
 //run before the tests so that we recieve the right data in the db.
-beforeAll(() => {
+beforeEach(() => {
   const testData = require("../db/data/test-data/index.js"); //the actual file . an array of objects
   const seed = require("../db/seeds/seed.js"); //seed is a funciton that takes the data and puts it in the database
   return seed(testData);
@@ -31,7 +31,7 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((res) => {
-        expect(Array.isArray(res.body)).toBe(true);
+        expect(Array.isArray(res.body.topics)).toBe(true);
       });
   });
   test("should return an endpoint(an array of objects) that has the properties slug", () => {
@@ -39,7 +39,7 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((res) => {
-        const firstElement = res.body[0];
+        const firstElement = res.body.topics[0];
         expect(typeof firstElement.slug).toBe("string");
         expect(typeof firstElement.description).toBe("string");
       });
@@ -49,7 +49,7 @@ describe("GET /api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((res) => {
-        const firstElement = res.body[0];
+        const firstElement = res.body.topics[0];
         expect(firstElement.hasOwnProperty("description")).toBe(true);
         expect(typeof firstElement).toBe("object");
         expect(typeof firstElement.description).toBe("string");
