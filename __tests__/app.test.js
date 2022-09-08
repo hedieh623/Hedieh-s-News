@@ -105,8 +105,8 @@ describe("5. GET /api/users", () => {
       .get("/api/users")
       .expect(200)
       .then((res) => {
-        expect(Array.isArray(res.body)).toBe(true);
-        const firstElement = res.body[0];
+        expect(Array.isArray(res.body.users)).toBe(true);
+        const firstElement = res.body.users[0];
         expect(firstElement.hasOwnProperty("username")).toBe(true);
         expect(firstElement.hasOwnProperty("name")).toBe(true);
         expect(firstElement.hasOwnProperty("avatar_url")).toBe(true);
