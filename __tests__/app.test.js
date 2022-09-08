@@ -1,9 +1,8 @@
 const request = require("supertest");
 const app = require("../app.js");
-//run before the tests so that we recieve the right data in the db.
 beforeAll(() => {
-  const testData = require("../db/data/test-data/index.js"); //the actual file . an array of objects
-  const seed = require("../db/seeds/seed.js"); //seed is a funciton that takes the data and puts it in the database
+  const testData = require("../db/data/test-data/index.js"); 
+  const seed = require("../db/seeds/seed.js"); 
   return seed(testData);
 });
 
@@ -129,7 +128,7 @@ describe("6. PATCH /api/articles/:article_id", () => {
 
       });});
 
-      //send sends an object as part of our req so that server can say what obj did they send us?
+      
 
   test('based on what number it is given, the votes key should be updated by substracting that number from the  value', () => {
     return request(app)
