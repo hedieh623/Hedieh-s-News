@@ -1,32 +1,30 @@
 const { selectArticles, updateVotes } = require("../Models/Article.model.js");
 
-const getArticles = (req, res) => {
+const letsUpdateVotes = (req, res) => {
+  updateVotes(req.params.article_id, req.body.inc_votes) 
+    .then((article) => {
+      if (article) {
+        res.status(200).send({ article: article });
+      } else {
+        res.status(404).send({
+          error: `No article was found with id: ${req.params.article_id}`,
+        });      }
+    });
+}
+          
+const getArticles = (req, res, next) => {
   selectArticles(req.params.article_id)
     .then((article) => {
-      console.log(article)
       if (article) {
-        res.status(200).send(article);
+        res
+        .status(200)
+        .send({article:article});
       } else {
         res
           .status(404)
-          .send(`No article was found with id: ${req.params.article_id}`);
-      }
-    })
-    .catch((error) => {
-      next(error);
-    });
-};
-
-
-const letsUpdateVotes = (req, res) => {
-  updateVotes(req)
-    .then((article) => {
-      if (article) {
-        res.status(200).send(article);
-      } else {
-        res
-          .status(404)
-          .send(`No article was found with id: ${req.params.article_id}`);
+          .send({
+            error: `No article was found with id: ${req.params.article_id}`,
+          });
       }
     })
     .catch((error) => {
@@ -34,6 +32,4 @@ const letsUpdateVotes = (req, res) => {
     });
 };
   
-
-
-module.exports = { getArticles,letsUpdateVotes};
+module.exports = { getArticles, letsUpdateVotes };
