@@ -150,7 +150,18 @@ describe("6. PATCH /api/articles/:article_id", () => {
       .then((res) => {
           const message = res.body.error;
           expect(message).toBe("No article was found with id: 1000");      });
+
   });
+   test("based on what number it is given, the votes key should be updated by substracting that number from the  value", () => {
+     return request(app)
+       .patch("/api/articles/banana")
+       .send({ inc_votes: -5 })
+       .expect(404)
+       .then((res) => {
+         const message = res.body.error;
+         expect(message).toBe("No article was found with id: 1000");
+       });
+   });
 })
 
 
