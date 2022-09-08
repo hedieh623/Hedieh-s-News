@@ -112,3 +112,16 @@ describe("5. GET /api/users", () => {
       });
   });
 });
+
+describe("6. PATCH /api/articles/:article_id", () => {
+  test('should return the response(an object) that has the ', () => {
+    return request(app)
+      .patch("/api/users")
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body)).toBe(true);
+        const firstElement = res.body[0];
+        expect(firstElement.hasOwnProperty("username")).toBe(true);
+    
+  })};
+});
