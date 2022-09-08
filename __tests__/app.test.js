@@ -1,6 +1,5 @@
 const request = require("supertest");
 const app = require("../app.js");
-
 //run before the tests so that we recieve the right data in the db.
 beforeAll(() => {
   const testData = require("../db/data/test-data/index.js"); //the actual file . an array of objects
@@ -26,7 +25,6 @@ describe("invalid endpoints", () =>{
 })
 
 describe("GET /api/topics", () => {
-
   test("calls this endopoint and sees if it is an array or not", () => {
     return request(app)
       .get("/api/topics")
@@ -86,23 +84,36 @@ describe('GET /api/articles/:article_id', () => {
   });
   test("should return the response(an object) that has the stated properties ", () => {
     return request(app).get("/api/articles/banana")
-    .expect(404)
-    .then((res) => {
-        const message = res.body.message;
-        expect(message).toBe("Route not found");
-        expect(typeof res.body).toBe("object");
-    
-  });
+    .expect(500)
 });
 test("should return the response(an object) that has the stated properties ", () => {
   return request(app)
     .get("/api/articles/1000")
     .expect(404)
     .then((res) => {
-      const message = res.body.message;
-      expect(message).toBe("Route not found");
-      expect(typeof res.body).toBe("object");
+      const message = res.body.error;
+      expect(message).toBe(
+        "No article was found with id: 1000"
+      );
     });
 });
 })
 
+describe("5. GET /api/users", () => {
+  test("should return the response(an array of objects) that has the properties description", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body.users)).toBe(true);
+        const firstElement = res.body.users[0];
+        expect(firstElement.hasOwnProperty("username")).toBe(true);
+        expect(firstElement.hasOwnProperty("name")).toBe(true);
+        expect(firstElement.hasOwnProperty("avatar_url")).toBe(true);
+        expect(typeof firstElement).toBe("object");
+        expect(typeof firstElement.username).toBe("string");
+        expect(typeof firstElement.name).toBe("string");
+        expect(typeof firstElement.avatar_url).toBe("string");
+      });
+  });
+});
