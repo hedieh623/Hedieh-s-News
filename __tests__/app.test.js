@@ -1,17 +1,16 @@
 const request = require("supertest");
 const app = require("../app.js");
-​
 //run before the tests so that we recieve the right data in the db.
 beforeAll(() => {
   const testData = require("../db/data/test-data/index.js"); //the actual file . an array of objects
   const seed = require("../db/seeds/seed.js"); //seed is a funciton that takes the data and puts it in the database
   return seed(testData);
 });
-​
+
 afterAll(() => {
   app.close();
 });
-​
+
 describe("invalid endpoints", () =>{
   test("should respond with a `Route not found` message when the wrong path is requested", () => {
     return request(app)
@@ -24,9 +23,8 @@ describe("invalid endpoints", () =>{
       });
   });
 })
-​
+
 describe("GET /api/topics", () => {
-​
   test("calls this endopoint and sees if it is an array or not", () => {
     return request(app)
       .get("/api/topics")
@@ -35,7 +33,7 @@ describe("GET /api/topics", () => {
         expect(Array.isArray(res.body)).toBe(true);
       });
   });
-​
+
   test('should return an endpoint(an array of objects) that has the properties slug', () => {
     return request(app)
     .get("/api/topics")
@@ -47,7 +45,7 @@ describe("GET /api/topics", () => {
       expect(typeof(firstElement.slug)).toBe("string")
     })
   });
-​
+
   test("should return the response(an array of objects) that has the properties description", () => {
     return request(app)
       .get("/api/topics")
@@ -60,7 +58,7 @@ describe("GET /api/topics", () => {
       });
   });
 });
-​
+
 describe('GET /api/articles/:article_id', () => {
   test('should call this endopoint and sees if it is an object or not and if the article id matches the URL"', () => {
     return request(app)
@@ -74,7 +72,7 @@ describe('GET /api/articles/:article_id', () => {
       const body = res.body.article.body;
       const created_at = res.body.article.created_at;
       const votes = res.body.article.votes;
-​
+
       expect(typeof(res.body)).toBe("object")
       expect(article_id).toBe(1)
       expect(author).toBe("butter_bridge")
@@ -86,26 +84,21 @@ describe('GET /api/articles/:article_id', () => {
   });
   test("should return the response(an object) that has the stated properties ", () => {
     return request(app).get("/api/articles/banana")
-    .expect(404)
-    .then((res) => {
-        const message = res.body.message;
-        expect(message).toBe("Route not found");
-        expect(typeof res.body).toBe("object");
-    
-  });
+    .expect(500)
 });
 test("should return the response(an object) that has the stated properties ", () => {
   return request(app)
     .get("/api/articles/1000")
     .expect(404)
     .then((res) => {
-      const message = res.body.message;
-      expect(message).toBe("Route not found");
-      expect(typeof res.body).toBe("object");
+      const message = res.body.error;
+      expect(message).toBe(
+        "No article was found with id: 1000"
+      );
     });
 });
 })
-​
+
 describe("5. GET /api/users", () => {
   test("should return the response(an array of objects) that has the properties description", () => {
     return request(app)
