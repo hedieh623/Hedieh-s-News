@@ -141,7 +141,7 @@ describe("6. PATCH /api/articles/:article_id", () => {
       });
   });
 
-  test("based on what number it is given, the votes key should be updated by substracting that number from the  value", () => {
+  test("the endpoint should gracefully handle requests with invalid paths and issue the relevant error",() => {
     return request(app)
       .patch("/api/articles/banana")
       .send({ inc_votes: -5 })
