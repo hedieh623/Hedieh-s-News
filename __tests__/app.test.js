@@ -1,8 +1,8 @@
 const request = require("supertest");
 const app = require("../app.js");
 beforeAll(() => {
-  const testData = require("../db/data/test-data/index.js"); 
-  const seed = require("../db/seeds/seed.js"); 
+  const testData = require("../db/data/test-data/index.js");
+  const seed = require("../db/seeds/seed.js");
   return seed(testData);
 });
 
@@ -82,7 +82,7 @@ describe("GET /api/articles/:article_id", () => {
       });
   });
   test("should return the response(an object) that has the stated properties ", () => {
-    return request(app).get("/api/articles/banana").expect(500);
+    return request(app).get("/api/articles/banana").expect(400);
   });
   test("should return the response(an object) that has the stated properties ", () => {
     return request(app)
@@ -115,52 +115,52 @@ describe("5. GET /api/users", () => {
 });
 
 describe("6. PATCH /api/articles/:article_id", () => {
-  test('should return the response(an object) that has the ', () => {
+  test("should return the response(an object) that has the ", () => {
     return request(app)
       .patch("/api/articles/2")
-      .send({inc_votes:2})
+      .send({ inc_votes: 2 })
       .expect(200)
-      .then((res) =>{
-        res.body.vote
+      .then((res) => {
+        res.body.vote;
         expect(typeof res.body).toBe("object");
-        expect( res.body.article.votes).toBe(2);
-
-
-      });});
-
-      
-
-  test('based on what number it is given, the votes key should be updated by substracting that number from the  value', () => {
-    return request(app)
-    .patch("/api/articles/3")
-    .send({ inc_votes:-5})
-    .expect((200))
-    .then((res)=>{
-      res.body.votes
-      expect(res.body.article.votes).toBe(-5);
-    })
+        expect(res.body.article.votes).toBe(2);
+        expect(res.body.article.author).toBe("icellusedkars");
+        expect(res.body.article.title).toBe("Sony Vaio; or, The Laptop");
+        expect(res.body.article.topic).toBe("mitch");
+      });
   });
-  
+
   test("based on what number it is given, the votes key should be updated by substracting that number from the  value", () => {
     return request(app)
       .patch("/api/articles/1000")
       .send({ inc_votes: -5 })
       .expect(404)
       .then((res) => {
-          const message = res.body.error;
-          expect(message).toBe("No article was found with id: 1000");      });
-
+        const message = res.body.error;
+        expect(message).toBe("No article was found with id: 1000");
+      });
   });
-   test("based on what number it is given, the votes key should be updated by substracting that number from the  value", () => {
-     return request(app)
-       .patch("/api/articles/banana")
-       .send({ inc_votes: -5 })
-       .expect(404)
-       .then((res) => {
-         const message = res.body.error;
-         expect(message).toBe("No article was found with id: 1000");
-       });
-   });
-})
 
+  test("based on what number it is given, the votes key should be updated by substracting that number from the  value", () => {
+    return request(app)
+      .patch("/api/articles/banana")
+      .send({ inc_votes: -5 })
+      .expect(400)
+      .then((res) => {
+        const message = res.body.error;
+        expect(message).toBe("article id must be a number");
+      });
+  });
+  test('should ', () => {
+    return request(app)
+      .patch("/api/articles/abc")
+      .send({ inc_votes: -5 })
+      .expect(400)
+      .then((res) => {
+        const message = res.body.error;
+        expect(message).toBe("article id must be a number");
+      });
 
+    
+  });
+});

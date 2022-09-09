@@ -21,7 +21,5 @@ const updateVotes= (article_id, additionalVotes)=>{
       return result.rows[0];
     });
 }
-//line 14 updates the value of votes with a new number of votes
-//MY PSQL  CONDITION IS BASED ON WHERE A CONDITION IS SATISFIED , ONLY DO IT FOR WHERE APP ID = THIS
 
 module.exports = {selectArticles, updateVotes};
