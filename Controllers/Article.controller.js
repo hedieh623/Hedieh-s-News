@@ -1,10 +1,13 @@
 const { selectArticles, updateVotes } = require("../Models/Article.model.js");
+const { getNumerOfComments } = require("../Models/Comments.model.js");
 
 const letsUpdateVotes = (req, res) => {
   const article_id = req.params.article_id;
   const additionalVotes = req.body.inc_votes;
   if (!isNaN(article_id) && !isNaN(additionalVotes)) {
-    updateVotes(article_id, additionalVotes).then((article) => {
+
+    updateVotes(article_id, additionalVotes)
+    .then((article) => {
       if (article) {
         res.status(200).send({ article: article });
       } else {
@@ -25,28 +28,29 @@ const letsUpdateVotes = (req, res) => {
 };
 
 const getArticles = (req, res, next) => {
-  const article_id = req.params.article_id;
-  if (!isNaN(article_id)){
-    selectArticles(article_id)
-      .then((article) => {
+  const article_id = req.params.article_id; 
+  if (!isNaN(article_id)) {
+    Promise.all([selectArticles(article_id), getNumerOfComments(article_id)])
+      .then(([article, commentCount]) => {
         if (article) {
-          res.status(200).send({ article: article });
+          article.comment_count = commentCount; 
+          res.status(200).send({
+            article: article
+          });
         } else {
           res.status(404).send({
             error: `No article was found with id: ${req.params.article_id}`,
           });
         }
       })
-
       .catch((error) => {
         next(error);
       });
+  } else {
+    res.status(400).send({
+      error: `article id must be a number`,
+    });
+  }
+};
 
-  }else{
-     res.status(400).send({
-            error: `article id must be a number`
-  })
-  
-}};
-  
-module.exports = { getArticles, letsUpdateVotes};
+module.exports = { getArticles, letsUpdateVotes };

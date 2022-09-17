@@ -71,6 +71,7 @@ describe("GET /api/articles/:article_id", () => {
         const body = res.body.article.body;
         const created_at = res.body.article.created_at;
         const votes = res.body.article.votes;
+        const comment_count = res.body.article.comment_count;
 
         expect(typeof res.body).toBe("object");
         expect(article_id).toBe(1);
@@ -79,6 +80,7 @@ describe("GET /api/articles/:article_id", () => {
         expect(topic).toBe("mitch");
         expect(body).toBe("I find this existence challenging");
         expect(votes).toBe(100);
+        expect(comment_count).toBe(11);
       });
   });
   test("should return the response(an object) that has the stated properties ", () => {
@@ -150,17 +152,5 @@ describe("6. PATCH /api/articles/:article_id", () => {
         const message = res.body.error;
         expect(message).toBe("article id must be a number");
       });
-  });
-  test('should ', () => {
-    return request(app)
-      .patch("/api/articles/abc")
-      .send({ inc_votes: -5 })
-      .expect(400)
-      .then((res) => {
-        const message = res.body.error;
-        expect(message).toBe("article id must be a number");
-      });
-
-    
   });
 });
