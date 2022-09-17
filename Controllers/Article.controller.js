@@ -5,6 +5,7 @@ const letsUpdateVotes = (req, res) => {
   const article_id = req.params.article_id;
   const additionalVotes = req.body.inc_votes;
   if (!isNaN(article_id) && !isNaN(additionalVotes)) {
+
     updateVotes(article_id, additionalVotes)
     .then((article) => {
       if (article) {
@@ -51,6 +52,5 @@ const getArticles = (req, res, next) => {
     });
   }
 };
-
 
 module.exports = { getArticles, letsUpdateVotes };

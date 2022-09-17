@@ -22,9 +22,4 @@ const updateVotes= (article_id, additionalVotes)=>{
     });
 }
 
-
-
-
-
-
 module.exports = {selectArticles, updateVotes};

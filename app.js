@@ -11,7 +11,8 @@ app.get("/api/topics", getTopics);
 app.get("/api/articles/:article_id", getArticles);
 app.get("/api/users", getUsers);
 app.patch("/api/articles/:article_id", letsUpdateVotes);
-app.all("*", invaliRequest);
+app.all("*", invaliRequest); //when calling this all request, it uses this function
+// our app.js file starts the server and says oh this is the request, tell such and such a controller to handle it.
 
 const server = app.listen(8080);
 

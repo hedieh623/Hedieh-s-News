@@ -80,7 +80,7 @@ describe("GET /api/articles/:article_id", () => {
         expect(topic).toBe("mitch");
         expect(body).toBe("I find this existence challenging");
         expect(votes).toBe(100);
-        expect(comment_count).toBe(11)
+        expect(comment_count).toBe(11);
       });
   });
   test("should return the response(an object) that has the stated properties ", () => {
