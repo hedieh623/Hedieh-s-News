@@ -35,4 +35,7 @@ group by articles.article_id;`
   return result.rows
   });
 }
+
+
+
 module.exports = {selectArticles, updateVotes,getAllArticlesAndCommentInfo};
