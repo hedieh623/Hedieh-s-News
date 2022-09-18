@@ -22,4 +22,17 @@ const updateVotes= (article_id, additionalVotes)=>{
     });
 }
 
-module.exports = {selectArticles, updateVotes};
+
+const getAllArticlesAndCommentInfo = ()=>{
+  return db.query(
+    `SELECT articles.*, count(comments.*) as comment_count
+FROM articles
+INNER JOIN comments 
+ON articles.article_id=comments.article_id
+group by articles.article_id;`
+  )
+  .then((result)=>{
+  return result.rows
+  });
+}
+module.exports = {selectArticles, updateVotes,getAllArticlesAndCommentInfo};

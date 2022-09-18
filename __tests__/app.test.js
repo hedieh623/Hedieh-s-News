@@ -143,7 +143,7 @@ describe("6. PATCH /api/articles/:article_id", () => {
       });
   });
 
-  test("the endpoint should gracefully handle requests with invalid paths and issue the relevant error",() => {
+  test("the endpoint should gracefully handle requests with invalid paths and issue the relevant error", () => {
     return request(app)
       .patch("/api/articles/banana")
       .send({ inc_votes: -5 })
@@ -154,3 +154,37 @@ describe("6. PATCH /api/articles/:article_id", () => {
       });
   });
 });
+describe("8. GET /api/articles", () => {
+  test("should return an articles array of article objects, each of which should have the stated properties", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body.articles)).toBe(true);
+        const firstElement = res.body.articles[0];
+        expect(firstElement.hasOwnProperty("title")).toBe(true);
+        expect(firstElement.hasOwnProperty("article_id")).toBe(true);
+        expect(firstElement.hasOwnProperty("created_at")).toBe(true);
+        expect(firstElement.hasOwnProperty("votes")).toBe(true);
+        expect(firstElement.hasOwnProperty("comment_count")).toBe(true);
+      });
+})
+    test("should return only the artciles that have the specific query that selects  cats only", () => {
+      return request(app)
+      .get("/api/articles?topic=cats")
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body.articles)).toBe(true);
+        expect(
+          res.body.articles.every((article) => article.topic === "cats")
+        ).toBe(true);
+      });     
+});
+  test("should return only the artciles that have the specific query, in this case, a topic that doesnt exist", () => {
+        return request(app)
+        .get("/api/articles?topic=banana")
+        .expect(200)
+        .then((res) => {
+          expect(res.body.articles).toEqual([]);
+        })})
+})
