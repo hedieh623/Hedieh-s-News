@@ -1,4 +1,5 @@
-const { selectArticles, updateVotes } = require("../Models/Article.model.js");
+const articles = require("../db/data/test-data/articles.js");
+const { selectArticles, updateVotes, getAllArticlesAndCommentInfo} = require("../Models/Article.model.js");
 const { getNumerOfComments } = require("../Models/Comments.model.js");
 
 const letsUpdateVotes = (req, res) => {
@@ -53,4 +54,34 @@ const getArticles = (req, res, next) => {
   }
 };
 
-module.exports = { getArticles, letsUpdateVotes };
+
+
+const getAllArticles = (req, res, next) => {
+  return getAllArticlesAndCommentInfo()
+    .then((allarticles)=> {
+      const topic = req.query.topic
+      if(topic){
+        res.status(200).send({
+          articles: allarticles.filter(article=>article.topic== topic)
+
+          })
+        }else{ 
+           res.status(200).send({
+             articles: allarticles
+           });
+
+        }
+      })
+    .catch((error) => {
+      next(error);
+    });
+};
+
+
+
+
+//allarticles is what is returned from the promise. it is a placeholder.
+module.exports = { getArticles, letsUpdateVotes,getAllArticles };
+
+//have a query to get ALL articles 
+//each article has an id , now that we know thst id look at the comment table and get the number of articles associated with that id
