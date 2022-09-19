@@ -1,6 +1,7 @@
 const articles = require("../db/data/test-data/articles.js");
 const { selectArticles, updateVotes, getAllArticlesAndCommentInfo} = require("../Models/Article.model.js");
-const { getNumerOfComments } = require("../Models/Comments.model.js");
+const { getNumerOfComments} = require("../Models/Comments.model.js");
+
 
 const letsUpdateVotes = (req, res) => {
   const article_id = req.params.article_id;
@@ -76,12 +77,6 @@ const getAllArticles = (req, res, next) => {
       next(error);
     });
 };
-
-
-
-
-//allarticles is what is returned from the promise. it is a placeholder.
 module.exports = { getArticles, letsUpdateVotes,getAllArticles };
 
-//have a query to get ALL articles 
-//each article has an id , now that we know thst id look at the comment table and get the number of articles associated with that id
+
