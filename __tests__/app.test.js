@@ -86,7 +86,7 @@ describe("GET /api/articles/:article_id", () => {
   test("should return the response(an object) that has the stated properties ", () => {
     return request(app).get("/api/articles/banana").expect(400);
   });
-  test("should return the response(an object) that has the stated properties ", () => {
+  test("should come up with an error message when give an article id that doesnt exist ", () => {
     return request(app)
       .get("/api/articles/1000")
       .expect(404)
@@ -143,7 +143,7 @@ describe("6. PATCH /api/articles/:article_id", () => {
       });
   });
 
-  test("the endpoint should gracefully handle requests with invalid paths and issue the relevant error", () => {
+  test("The endpoint should gracefully handle requests with invalid paths and issue the relevant error", () => {
     return request(app)
       .patch("/api/articles/banana")
       .send({ inc_votes: -5 })
@@ -154,6 +154,7 @@ describe("6. PATCH /api/articles/:article_id", () => {
       });
   });
 });
+
 describe("8. GET /api/articles", () => {
   test("should return an articles array of article objects, each of which should have the stated properties", () => {
     return request(app)
@@ -188,3 +189,39 @@ describe("8. GET /api/articles", () => {
           expect(res.body.articles).toEqual([]);
         })})
 })
+
+describe("9. GET /api/articles/:article_id/comments", () => {
+  test("should respond with an array of comments for the given `article_id` of which each comment should have the stated properties: ", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((res) => {
+        expect(Array.isArray(res.body.comments)).toBe(true);
+        const firstElement = res.body.comments[0];
+        expect(firstElement.hasOwnProperty("comment_id")).toBe(true);
+        expect(firstElement.hasOwnProperty("votes")).toBe(true);
+        expect(firstElement.hasOwnProperty("author")).toBe(true);
+        expect(firstElement.hasOwnProperty("body")).toBe(true);
+        expect(firstElement.hasOwnProperty("created_at")).toBe(true);
+
+      });
+  });
+  test("should come up with an error message when give an article id that doesnt exist  ", () => {
+    return request(app)
+      .get("/api/articles/9000/comments")
+      .expect(404)
+      .then((res) => {
+        const message = res.body.error;
+        expect(message).toBe("No comment was found with id: 9000");
+      });
+  });
+  test("The endpoint should gracefully handle requests with invalid paths and issue the relevant error", () => {
+    return request(app)
+      .get("/api/articles/banana/comments")
+      .expect(400)
+      .then((res) => {
+        const message = res.body.error;
+        expect(message).toBe("article id must be a number");
+      });
+  });
+});
