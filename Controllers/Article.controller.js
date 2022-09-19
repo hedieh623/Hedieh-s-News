@@ -77,26 +77,6 @@ const getAllArticles = (req, res, next) => {
       next(error);
     });
 };
-
-
-;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 module.exports = { getArticles, letsUpdateVotes,getAllArticles };
 
 
